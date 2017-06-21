@@ -55,8 +55,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 			return nil,errors.New("Change Username")
 		}
 		return t.enter_patient_details(stub, args)	
-	}
-	else if function == "enter_patient_prescription" {
+	}else if function == "enter_patient_prescription" {
 		return t.enter_patient_prescription(stub, args)
 	}else if function == "enter_lab_details" {
 		return t.enter_lab_details(stub, args)
