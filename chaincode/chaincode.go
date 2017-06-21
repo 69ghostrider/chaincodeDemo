@@ -147,7 +147,7 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
  	err = json.Unmarshal(bytes,&patient)
  	patient.Lab_Details = append(patient.Lab_Details, lab_details)
 	}
-	
+	else{
 	
 	
         lab_details := Lab_Details{}
@@ -160,7 +160,8 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 	var patient Patient
  	err = json.Unmarshal(bytes,&patient)
  	patient.Lab_Details = append(patient.Lab_Details, lab_details)
-
+	}
+	
 	bytes, err = json.Marshal(&patient)
 	if err != nil { 
 		return nil, errors.New("Error converting Patient record") 
