@@ -53,7 +53,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		bytes,err := stub.GetState(PREFIX_PATIENT + args[0])
 		var patient Patient;
 		err = json.Unmarshal(bytes,&patient)
-		fmt.Println("Patient details"+patient)
+		fmt.Println(patient)
 		
 		if err == nil{
 			return nil,errors.New("Change Username")
