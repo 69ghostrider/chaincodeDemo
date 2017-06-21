@@ -48,9 +48,15 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 }
  
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	if function == "enter_patient_details" {
-		return t.enter_patient_details(stub, args)
-	}else if function == "enter_patient_prescription" {
+	
+	if function == "sign_up"{
+		bytes,err := stub.GetState(PATIENT_PREFIX + args[0])
+		if err == nil{
+			return nil,errors.New("Change Username")
+		}
+		return t.enter_patient_details(stub, args)	
+	}
+	else if function == "enter_patient_prescription" {
 		return t.enter_patient_prescription(stub, args)
 	}else if function == "enter_lab_details" {
 		return t.enter_lab_details(stub, args)
@@ -120,18 +126,23 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 
 	//	    0              1		   2		  3             4            5
   	//	   Name       Name_Lab        Report_Type        Date      Impressions    Findings
-
-	if len(args) != 6 { 
-		return nil, errors.New("Incorrect number of arguments. Expecting 4")
-	}
-
+	
 	bytes, err := stub.GetState(PREFIX_PATIENT + args[0])
 	if err != nil { 
 		return nil, errors.New("No Patient with name " + args[0])
 	}
-
-
-lab_details := Lab_Details{}
+	
+	
+	if len(args) ==1{
+	lab_details := Lab_Details{}
+		var patient Patient
+ 	err = json.Unmarshal(bytes,&patient)
+ 	patient.Lab_Details = append(patient.Lab_Details, lab_details)
+	}
+	
+	
+	
+        lab_details := Lab_Details{}
 	lab_details.Name_Lab = args[1]
 	lab_details.Report_Type = args[2]
 	lab_details.Date = args[3]
