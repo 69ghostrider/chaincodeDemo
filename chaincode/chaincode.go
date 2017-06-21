@@ -20,9 +20,9 @@ type Prescription  struct {
 
 type Patient struct {
 	Name            	string 			`json:"name"`
-	dob           		string 			`json:"dob"`
+	Dob           		string 			`json:"dob"`
 	CurrentProblem          string 			`json:"currentproblem"`
-	allergies      		string 			`json:"currentproblem"`
+	Allergies      		string 			`json:"allergies"`
 	Prescriptions 		[]Prescription 	        `json:"prescriptions"`
 	Lab_Details             []Lab_Details           `json:"lab_details"`
 }
@@ -83,9 +83,9 @@ func (t *SimpleChaincode) enter_patient_details(stub shim.ChaincodeStubInterface
 
 	patient := Patient{}
 	patient.Name = args[0]
-	patient.dob = args[1]
+	patient.Dob = args[1]
 	patient.CurrentProblem = args[2]
-	patient.allergies =  args[3]
+	patient.Allergies =  args[3]
 	bytes, err := json.Marshal(&patient)
 
 	if err != nil { 
