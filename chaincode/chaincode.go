@@ -138,6 +138,11 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 	
 	if len(args) ==1{
 	lab_details := Lab_Details{}
+		lab_details.Name_Lab = "-"
+	lab_details.Report_Type = "-"
+	lab_details.Date = "-"
+	lab_details.Impressions = "-"
+	lab_details.Findings = "-"
 		var patient Patient
  	err = json.Unmarshal(bytes,&patient)
  	patient.Lab_Details = append(patient.Lab_Details, lab_details)
