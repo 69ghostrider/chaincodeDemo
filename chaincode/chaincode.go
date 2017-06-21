@@ -51,6 +51,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	
 	if function == "sign_up"{
 		bytes,err := stub.GetState(PREFIX_PATIENT + args[0])
+		fmt.Println("Patient details"+bytes)
 		if err == nil{
 			return nil,errors.New("Change Username")
 		}
