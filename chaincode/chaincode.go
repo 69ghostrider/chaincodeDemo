@@ -136,7 +136,7 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 	}
 	
 	
-	if len(args) ==1{
+	if len(args) ==1 {
 	lab_details := Lab_Details{}
 		lab_details.Name_Lab = "-"
 	lab_details.Report_Type = "-"
