@@ -35,7 +35,16 @@ type Lab_Details struct{
 }
 
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-    return nil, nil
+	
+	if len(args) != 2 {
+		return nil,errors.New("Incorrect number of arguments,needed 2")
+	}
+	err :=stub.PutState(args[0],[]byte(args[1]))
+	if err != nil{
+		fmt.Errof(err.Error())
+	        return nil,err
+	}
+	return nil,nil
 }
  
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
@@ -54,18 +63,16 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		var patient Patient;
 		err = json.Unmarshal(bytes,&patient)
 		fmt.Println(patient)
-		
-		if err == nil{
-			return nil,errors.New("Change Username")
-		}
-		return t.enter_patient_details(stub, args)	
-	}else if function == "enter_patient_prescription" {
+	if err == nil{
+		return nil,errors.New("Change Username")
+	}
+	return t.enter_patient_details(stub, args)	
+	}else if function == "enter_patient_prescription" {    
 		return t.enter_patient_prescription(stub, args)
 	}else if function == "enter_lab_details" {
 		return t.enter_lab_details(stub, args)
 	}
 	
-
 	return nil, errors.New("Received unknown function invocation " + function)
    
 }
@@ -136,20 +143,19 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 	}
 	
 	
-	if len(args) ==1 {
+	if len(args) == 1 {
 	lab_details := Lab_Details{}
-		lab_details.Name_Lab = "-"
+	lab_details.Name_Lab = "-"
 	lab_details.Report_Type = "-"
 	lab_details.Date = "-"
 	lab_details.Impressions = "-"
 	lab_details.Findings = "-"
-		var patient Patient
+		
+	var patient Patient
  	err = json.Unmarshal(bytes,&patient)
  	patient.Lab_Details = append(patient.Lab_Details, lab_details)
 	}
 	else{
-	
-	
         lab_details := Lab_Details{}
 	lab_details.Name_Lab = args[1]
 	lab_details.Report_Type = args[2]
