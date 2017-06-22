@@ -142,7 +142,7 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 		return nil, errors.New("No Patient with name " + args[0])
 	}
 	
-	
+	var patient Patient
 	if len(args) == 1 {
 	lab_details := Lab_Details{}
 	lab_details.Name_Lab = "-"
@@ -151,7 +151,7 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 	lab_details.Impressions = "-"
 	lab_details.Findings = "-"
 		
-	var patient Patient
+	
  	err = json.Unmarshal(bytes,&patient)
  	patient.Lab_Details = append(patient.Lab_Details, lab_details)
 	}else
@@ -163,7 +163,7 @@ func (t *SimpleChaincode) enter_lab_details(stub shim.ChaincodeStubInterface, ar
 	lab_details.Impressions = args[4]
 	lab_details.Findings = args[5]
 
-	var patient Patient
+	
  	err = json.Unmarshal(bytes,&patient)
  	patient.Lab_Details = append(patient.Lab_Details, lab_details)
 	}
