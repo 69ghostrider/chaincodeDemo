@@ -17,7 +17,13 @@ type Prescription  struct {
 	Medication          string 		`json:"medication"`
 	Duration      		string 		`json:"duration"`
 }
-
+type Patient_name struct {
+	Pat_name   string   `json:"pat_name"`
+}
+type Provider struct{
+	Provider_Name  		  string     		 `json:"provider_name"`
+	Patient_names     	 []Patient_name    	  `json:"patient_names"`
+}
 type Patient struct {
 	Name            	string 			`json:"name"`
 	Dob           		string 			`json:"dob"`
@@ -64,6 +70,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.enter_patient_prescription(stub, args)
 	}else if function == "enter_lab_details" {
 		return t.enter_lab_details(stub, args)
+	}else if function == "patient_provider_mapping" {
+		return t.patient_provider_mapping(stub,args)
 	}
 	
 	return nil, errors.New("Received unknown function invocation " + function)
@@ -79,14 +87,57 @@ func main() {
     }
  
 }
+func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	if len(args) != 2{
+		return nil,errors.New("Incorrect number of arguments. Expecting 2")
+	}
+	
+	bytes, err := stub.GetState(args[0])
+	if err == nil{
+	var provider Provider
+	patient_name := Patient_name{}
+	patient_name.Pat_Name =args[1]
+	
+	err = stub.PutState(args[0], []byte(args[1]))
+		if err != nil { 
+		return nil, errors.New("Error storing Provider record") 
+	}
+	}else {
+	var provider Provider
+	patient_name := Patient_name{}
+	patient_name.Pat_Name =args[1]
+	err = json.Unmarshal(bytes,&provider)
+	provider.Patient_Names = append(provider.Patient_Names, patient_name)
+	bytes, err = json.Marshal(&provider)
+	if err != nil { 
+		return nil, errors.New("Error converting Provider record")
+	}
+	err = stub.PutState(args[0], bytes)
+	if err != nil { 
+		return nil, errors.New("Error storing Provider record") 
+	}
+	return nil, nil
+}
 
+func (t *SimpleChaincode) get_patient_provider_mapping(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
+	if len(args) != 1 { 
+		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+	}
+
+	provider, err := stub.GetState(args[0])
+	if err != nil {
+		return nil, errors.New("Failed to get state for " + args[0])
+	}
+
+	return provider, nil
+}
 
 
 func (t *SimpleChaincode) enter_patient_details(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
 	if len(args) != 4 { 
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+		return nil, errors.New("Incorrect number of arguments. Expecting 4")
 	}
 
 
@@ -187,7 +238,7 @@ func (t *SimpleChaincode) enter_patient_prescription(stub shim.ChaincodeStubInte
 		return nil, errors.New("No Patient with name " + args[0])
 	}
 
-
+        
 	prescription := Prescription{}
 	prescription.Disease = args[1]
 	prescription.Medication = args[2]
