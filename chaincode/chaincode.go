@@ -104,10 +104,10 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 	}else {
 	
 		var provider Provider
-// 	patient_name := Patient_name{}
-// 	patient_name.Pat_Name =args[1]
+ 	patient_name := Patient_name{}
+	patient_name.Pat_Name =args[1]
 	err = json.Unmarshal(bytes,&provider)
-	provider.Patient_Names = append(provider.Patient_Names, args[1])
+	provider.Patient_Names = append(provider.Patient_Names, patient_name)
 	bytes, err = json.Marshal(&provider)
 	if err != nil { 
 		return nil, errors.New("Error converting Provider record")
@@ -116,10 +116,6 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 	if err != nil { 
 		return nil, errors.New("Error storing Provider record") 
 	}
-// 	var provider Provider
-// 	patient_name := Patient_name{}
-// 	patient_name.Pat_Name =args[1]
-	
 	}
 	return nil, nil
 	
