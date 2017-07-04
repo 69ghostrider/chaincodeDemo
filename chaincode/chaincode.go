@@ -95,8 +95,15 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 	}
 	
 	bytes, err := stub.GetState(args[0])
-	if err == nil{
-	var provider Provider
+	if err != nil{
+	err = stub.PutState(args[0], []byte(args[1]))
+		if err != nil { 
+		return nil, errors.New("Error storing Provider record") 
+	}
+	
+	}else {
+	
+		var provider Provider
 // 	patient_name := Patient_name{}
 // 	patient_name.Pat_Name =args[1]
 	err = json.Unmarshal(bytes,&provider)
@@ -113,12 +120,6 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 // 	patient_name := Patient_name{}
 // 	patient_name.Pat_Name =args[1]
 	
-	
-	}else {
-	err = stub.PutState(args[0], []byte(args[1]))
-		if err != nil { 
-		return nil, errors.New("Error storing Provider record") 
-	}
 	}
 	return nil, nil
 	
