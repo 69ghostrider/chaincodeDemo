@@ -56,6 +56,8 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	if function == "get_patient_details" {
 		return t.get_patient_details(stub, args)
+	}else if function == "get_patient_provider_mapping" {
+		return t.get_patient_provider_mapping(stub,args)
 	}
 
 	return nil, errors.New("Received unknown function invocation " + function)
@@ -72,8 +74,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.enter_lab_details(stub, args)
 	}else if function == "patient_provider_mapping" {
 		return t.patient_provider_mapping(stub,args)
-	}else if function == "get_patient_provider_mapping" {
-		return t.get_patient_provider_mapping(stub,args)
 	}
 	
 	return nil, errors.New("Received unknown function invocation " + function)
