@@ -17,9 +17,7 @@ type Prescription  struct {
 	Medication          string 		`json:"medication"`
 	Duration      		string 		`json:"duration"`
 }
-//  type Patient_name struct {
-//  	Pat_Name   string   `json:"pat_name"`
-// }
+
 type Provider struct{
 	Provider_Name  		  string     		 `json:"provider_name"`
 	Patient_Names     	 []string   	  `json:"patient_names"`
