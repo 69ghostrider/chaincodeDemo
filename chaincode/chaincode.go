@@ -17,12 +17,12 @@ type Prescription  struct {
 	Medication          string 		`json:"medication"`
 	Duration      		string 		`json:"duration"`
 }
-type Patient_name struct {
-	Pat_name   string   `json:"pat_name"`
-}
+// type Patient_name struct {
+// 	Pat_name   string   `json:"pat_name"`
+// }
 type Provider struct{
 	Provider_Name  		  string     		 `json:"provider_name"`
-	Patient_names     	 []Patient_name    	  `json:"patient_names"`
+	Patient_names     	 []string    	  `json:"patient_names"`
 }
 type Patient struct {
 	Name            	string 			`json:"name"`
@@ -94,9 +94,9 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 	
 	bytes, err := stub.GetState(args[0])
 	if err == nil{
-	var provider Provider
-	patient_name := Patient_name{}
-	patient_name.Pat_Name =args[1]
+// 	var provider Provider
+// 	patient_name := Patient_name{}
+// 	patient_name.Pat_Name =args[1]
 	
 	err = stub.PutState(args[0], []byte(args[1]))
 		if err != nil { 
@@ -104,10 +104,10 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 	}
 	}else {
 	var provider Provider
-	patient_name := Patient_name{}
-	patient_name.Pat_Name =args[1]
+// 	patient_name := Patient_name{}
+// 	patient_name.Pat_Name =args[1]
 	err = json.Unmarshal(bytes,&provider)
-	provider.Patient_Names = append(provider.Patient_Names, patient_name)
+	provider.Patient_Names = append(provider.Patient_Names, args[1])
 	bytes, err = json.Marshal(&provider)
 	if err != nil { 
 		return nil, errors.New("Error converting Provider record")
