@@ -17,12 +17,12 @@ type Prescription  struct {
 	Medication          string 		`json:"medication"`
 	Duration      		string 		`json:"duration"`
 }
-// type Patient_name struct {
-// 	Pat_name   string   `json:"pat_name"`
-// }
+ type Patient_name struct {
+ 	Pat_name   string   `json:"pat_name"`
+}
 type Provider struct{
 	Provider_Name  		  string     		 `json:"provider_name"`
-	Patient_Names     	 []string    	  `json:"patient_names"`
+	Patient_Names     	 []Patient_name   	  `json:"patient_names"`
 }
 type Patient struct {
 	Name            	string 			`json:"name"`
