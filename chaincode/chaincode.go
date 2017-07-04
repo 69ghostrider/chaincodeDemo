@@ -124,9 +124,9 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 
 func (t *SimpleChaincode) get_patient_provider_mapping(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
-	if len(args) != 1 { 
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
-	}
+// 	if len(args) != 1 { 
+// 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+// 	}
 
 	provider, err := stub.GetState(args[0])
 	if err != nil {
