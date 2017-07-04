@@ -96,7 +96,7 @@ func (t *SimpleChaincode) patient_provider_mapping (stub shim.ChaincodeStubInter
 	
 	bytes, err := stub.GetState(args[0])
 	if err != nil{
-	err = stub.PutState(args[0], []byte(args[1]))
+	err = stub.PutState(args[0], []byte(args))
 		if err != nil { 
 		return nil, errors.New("Error storing Provider record") 
 	}
