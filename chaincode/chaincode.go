@@ -17,7 +17,9 @@ type Prescription  struct {
 	Medication          string 		`json:"medication"`
 	Duration      		string 		`json:"duration"`
 }
-
+type Medical_Provider struct{
+	Pro_Name       []string    `json:"provider_name"`
+}
 type Provider struct{
 	Provider_Name  		  string     		 `json:"provider_name"`
 	Patient_Names     	 []string   	  `json:"patient_names"`
@@ -133,7 +135,12 @@ func (t *SimpleChaincode) get_patient_provider_mapping(stub shim.ChaincodeStubIn
 
 	return provider, nil
 }
+func (t *SimpleChaincode) get_patient_provider_mapping(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
+	
+	
+return nil,nil	
+}
 
 func (t *SimpleChaincode) enter_patient_details(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
